@@ -1,6 +1,18 @@
 # AioDatabase
 Wrapper for fast working with asynchronous mysql
 
+# Edit dbconfig.json for working
+
+```json
+{
+  "hostname": "Your hostname",
+  "port": 3306,
+  "user": "Username",
+  "password": "User's password",
+  "db": "Database's name"
+}
+```
+
 # Examples for working
 
 Creating a table
