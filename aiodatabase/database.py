@@ -1,11 +1,8 @@
-import aiomysql
-
 from .table import Table
 from .sql_request import SQLRequests
 
 
 class AioDatabase:
-    _pool: aiomysql.Pool = None
     _requests: SQLRequests = SQLRequests()
     _data_types = {
         "str": " TEXT ",
