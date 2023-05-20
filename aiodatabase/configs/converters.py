@@ -1,4 +1,4 @@
-from models import ConvertedUrl
+from .models import ConvertedUrl
 
 
 class Url:
