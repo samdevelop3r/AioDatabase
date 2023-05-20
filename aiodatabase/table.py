@@ -1,11 +1,14 @@
 from typing import List
+
 from .sql_request import SQLRequests
+from .configs.models import ConvertedUrl
 
 
 class Table:
-    def __init__(self, name: str, requests: SQLRequests):
+    def __init__(self, name: str, requests: SQLRequests, converted_url: ConvertedUrl):
         self._name = name
         self._requests: SQLRequests = requests
+        self._converted_url = converted_url
 
     @classmethod
     def _query_parameters_converter(cls, raw_queries: str | List[str]):
@@ -31,7 +34,7 @@ class Table:
         for value in kwargs.values():
             request_query += f"{self._query_parameters_converter(value)}, "
         request_query = request_query[:-2] + ")"
-        await self._requests.send(request_query)
+        await self._requests.send(converted_url=self._converted_url, query=request_query)
 
     async def update_value(self, values: List[dict], **kwargs):
         request_query = f"UPDATE {self._name} SET "
@@ -45,7 +48,7 @@ class Table:
                 request_query += f"{key} = {self._query_parameters_converter(value)} AND "
         request_query = request_query[:-5]
         print(request_query)
-        await self._requests.send(request_query)
+        await self._requests.send(converted_url=self._converted_url, query=request_query)
 
     async def delete_value(self, **kwargs):
         request_query = f"DELETE FROM {self._name} "
@@ -54,7 +57,7 @@ class Table:
             for key, value in kwargs.items():
                 request_query += f"{key} = {self._query_parameters_converter(value)} AND "
             request_query = request_query[:-5]
-        await self._requests.send(request_query)
+        await self._requests.send(converted_url=self._converted_url, query=request_query)
 
     async def select_values(self, values: str | List[str], **kwargs):
         request_query = f"SELECT "
@@ -68,5 +71,4 @@ class Table:
             for key, value in kwargs.items():
                 request_query += f"{key} = {self._query_parameters_converter(value)} AND "
             request_query = request_query[:-5]
-        return await self._requests.send(request_query)
-
+        return await self._requests.send(converted_url=self._converted_url, query=request_query)
