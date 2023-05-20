@@ -1,2 +1,1 @@
 aiomysql~=0.1.1
-ujson~=5.4.0
