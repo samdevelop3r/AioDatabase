@@ -59,7 +59,7 @@ class Table:
             request_query = request_query[:-5]
         await self._requests.send(converted_url=self._converted_url, query=request_query)
 
-    async def select_values(self, values: str | List[str], **kwargs):
+    async def select_values(self, values: str | List[str], order_by: str = None, **kwargs):
         request_query = f"SELECT "
         if isinstance(values, str) and values == "all":
             request_query += "*"
@@ -71,4 +71,6 @@ class Table:
             for key, value in kwargs.items():
                 request_query += f"{key} = {self._query_parameters_converter(value)} AND "
             request_query = request_query[:-5]
+        if order_by:
+            request_query += f" ORDER BY {order_by} DESC"
         return await self._requests.send(converted_url=self._converted_url, query=request_query)
