@@ -46,7 +46,8 @@ Selecting a values from columns
 ```py
 database = aiodatabase.AioDatabase("mysql://localhost:3306/root:root/mydb")
 await database.table("users").select_values(
-    values="all",  # or values=["username", "balance"]
-    balance=200
+    values="all",  # or values=["username", "balance"],
+    order_by="balance"
+    guild_id=100
 )
 ```
